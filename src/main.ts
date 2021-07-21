@@ -3,11 +3,11 @@ import singleSpaVue from "single-spa-vue";
 
 import App from "./App.vue";
 import router from "./router";
-
+import store from "./store";
 const vueLifecycles = singleSpaVue({
   createApp,
   appOptions: {
-    el: "#root_app1",
+    // el: "#root_app1",
     render() {
       return h(App, {
         // single-spa props are available on the "this" object. Forward them to your component as needed.
@@ -22,7 +22,7 @@ const vueLifecycles = singleSpaVue({
     },
   },
   handleInstance(app) {
-    app.use(router);
+    app.use(router).use(store);
   },
 });
 
