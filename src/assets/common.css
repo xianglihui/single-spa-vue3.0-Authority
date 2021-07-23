@@ -1,0 +1,16 @@
+.nav-con {
+  display: flex;
+  justify-content: flex-start;
+}
+.nav-left {
+  width: 124px;
+}
+.nav-content {
+  width: calc(100% - 124px);
+  /* border: 5px solid #f0f0f0; */
+}
+html,
+body {
+  margin: 0px;
+  padding: 0px;
+}

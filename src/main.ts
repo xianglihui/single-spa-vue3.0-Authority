@@ -1,9 +1,10 @@
 import { h, createApp } from "vue";
 import singleSpaVue from "single-spa-vue";
-
+import ElementPlus from 'element-plus';// +
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
+import '@/assets/common.css' // +
 const vueLifecycles = singleSpaVue({
   createApp,
   appOptions: {
@@ -22,7 +23,7 @@ const vueLifecycles = singleSpaVue({
     },
   },
   handleInstance(app) {
-    app.use(router).use(store);
+    app.use(router).use(store).use(ElementPlus);
   },
 });
 
