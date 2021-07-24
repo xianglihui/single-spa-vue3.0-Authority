@@ -10,6 +10,14 @@ const routes: Array<RouteRecordRaw> = [
     },
     children: [
       {
+        path: "permission",
+        name: "permission",
+        component: View.PermissionTree,
+        meta: {
+          title: "权限系统 - 角色管理",
+        },
+      },
+      {
         path: "role",
         name: "role",
         component: View.RoleManage,

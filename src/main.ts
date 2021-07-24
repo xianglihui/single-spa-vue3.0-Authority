@@ -1,10 +1,12 @@
 import { h, createApp } from "vue";
 import singleSpaVue from "single-spa-vue";
-import ElementPlus from 'element-plus';// +
+import ElementPlus from "element-plus"; // +
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
-import '@/assets/css/common.css' // +
+import api from "@/api";
+import "@/assets/css/common.css"; // +
+import "element-plus/lib/theme-chalk/index.css";
 const vueLifecycles = singleSpaVue({
   createApp,
   appOptions: {
@@ -23,6 +25,8 @@ const vueLifecycles = singleSpaVue({
     },
   },
   handleInstance(app) {
+    // 全局挂载api
+    app.config.globalProperties.$authApi = api;
     app.use(router).use(store).use(ElementPlus);
   },
 });
