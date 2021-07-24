@@ -4,7 +4,7 @@ import ElementPlus from 'element-plus';// +
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
-import '@/assets/common.css' // +
+import '@/assets/css/common.css' // +
 const vueLifecycles = singleSpaVue({
   createApp,
   appOptions: {
