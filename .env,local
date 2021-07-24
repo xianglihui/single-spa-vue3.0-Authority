@@ -1,0 +1,4 @@
+NODE_ENV = "local"
+
+# just a flag
+ENV = 'local'

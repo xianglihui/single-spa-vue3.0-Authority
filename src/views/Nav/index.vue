@@ -1,14 +1,18 @@
 <template>
-  <div>侧边栏</div>
+  <div :class="showSidebar ? 'nav' : ''"></div>
 </template>
 
-<script>
-import { reactive, toRefs } from "vue";
+<script lang="ts">
+import { reactive, toRefs, ref } from "vue";
+import { env } from "@/utils";
 export default {
   setup() {
     const state = reactive({});
+    const showSidebar = ref(env.showSidebar());
+    console.log("showSidebar", showSidebar);
     return {
       ...toRefs(state),
+      showSidebar,
     };
   },
 };
