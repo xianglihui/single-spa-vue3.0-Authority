@@ -5,7 +5,7 @@ import 'element-plus/lib/theme-chalk/index.css';
 import "@/assets/css/common.css"; // +
 import App from "./App.vue";
 import router from "./router";
-
+import api from "@/api";
 const vueLifecycles = singleSpaVue({
   createApp,
   appOptions: {
@@ -23,6 +23,7 @@ const vueLifecycles = singleSpaVue({
     },
   },
   handleInstance(app) {
+    app.config.globalProperties.$authApi = api;
     app.use(router).use(ElementPlus);
   },
 });

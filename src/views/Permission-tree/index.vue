@@ -35,7 +35,7 @@
         </div>
         <el-tree
           class="tree"
-          :data="test"
+          :data="treeData"
           :props="defaultProps"
           :filter-node-method="filterNode"
           @node-click="handleNodeClick"
@@ -119,7 +119,7 @@ export default {
     });
     const { proxy } = useCurrentInstance(); // 拿全局api
     const filterText = ref(""); // 过滤关键词
-    // console.log("proxy", proxy.$authApi);
+    console.log("proxy", proxy.$authApi);
     // 全部折叠
     const collapseAll = () => {
       console.log("全部折叠");
@@ -139,7 +139,7 @@ export default {
         .getAuthTree()
         .then((res: any) => {
           console.log("res", res);
-        //   state.treeData = res.data;
+          state.treeData = res.data.result;
         })
         .finally(() => {
           state.operationType = "";
@@ -167,14 +167,13 @@ export default {
       state.createAble = true;
     };
     onMounted(() => {
-    //   getAuthTree();
+      getAuthTree();
     });
     return {
       ...toRefs(state),
       filterText,
       collapseAll,
       unFoldAll,
-      getAuthTree,
       filterNode,
       handleNodeClick
     };
