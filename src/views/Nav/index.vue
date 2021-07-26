@@ -39,8 +39,8 @@ export default {
     });
     const router = useRouter();
     const activeLable = ref("permission");
+    // const showSidebar = ref(env.showSidebar());
     const showSidebar = ref(env.showSidebar());
-
     const choiceLabel = (tab: Tab) => {
       console.log("tab", tab);
       router.push(`/authority/${tab.props.name}`);
@@ -55,4 +55,9 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+/* .nav {
+  display: flex;
+  justify-content: flex-start;
+} */
+</style>

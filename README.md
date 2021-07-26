@@ -1,4 +1,4 @@
-# app1
+# pers
 
 ## Project setup
 ```

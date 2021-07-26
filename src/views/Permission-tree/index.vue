@@ -167,7 +167,7 @@ export default {
       state.createAble = true;
     };
     onMounted(() => {
-      getAuthTree();
+    //   getAuthTree();
     });
     return {
       ...toRefs(state),

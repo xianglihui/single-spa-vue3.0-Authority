@@ -19,7 +19,7 @@ const getUrl = (dev: string, pro: string, def: any = "") => {
     : def;
 };
 
-const env: Tenv = () => {
+const env: any = () => {
   // production development local
   console.log("process.env.NODE_ENV", process.env.NODE_ENV);
   return process.env.NODE_ENV;

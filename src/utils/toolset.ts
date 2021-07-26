@@ -2,15 +2,15 @@
 import { ComponentInternalInstance, getCurrentInstance } from "vue";
 
 // 防抖
-const debounce = (fn: () => void, delay: number) => {
-  let timer = 0;
-  return () => {
-    if (timer) {
-      clearTimeout(timer);
-    }
-    timer = setTimeout(fn, delay);
-  };
-};
+// const debounce = (fn: () => void, delay: number) => {
+//   let timer = 0;
+//   return () => {
+//     if (timer) {
+//       clearTimeout(timer);
+//     }
+//     timer = setTimeout(fn, delay);
+//   };
+// };
 // 节流
 const throttle = (fn: () => void, delay: number) => {
   let valid = true;
@@ -41,4 +41,4 @@ const useCurrentInstance = () => {
     proxy,
   };
 };
-export { debounce, throttle, getParams,useCurrentInstance };
+export { throttle, getParams, useCurrentInstance };
