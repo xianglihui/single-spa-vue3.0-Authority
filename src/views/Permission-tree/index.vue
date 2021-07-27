@@ -91,7 +91,8 @@
         </span>
         <!-- form -->
         <el-form
-          ref="form"
+          ref="refForm"
+          :model="form"
           label-width="80px"
           size="mini"
           class="form"
