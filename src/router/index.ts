@@ -15,17 +15,25 @@ const routes: Array<RouteRecordRaw> = [
         name: "permission",
         component: View.PermissionTree,
         meta: {
+          title: "权限系统 - 权限树",
+        },
+      },
+      {
+        path: "role",
+        name: "role",
+        component: View.RoleManage,
+        meta: {
           title: "权限系统 - 角色管理",
         },
       },
-      // {
-      //   path: "role",
-      //   name: "role",
-      //   component: View.RoleManage,
-      //   meta: {
-      //     title: "权限系统 - 角色管理",
-      //   },
-      // },
+      {
+        path: "role",
+        name: "role",
+        component: View.UserManage,
+        meta: {
+          title: "权限系统 - 用户管理",
+        },
+      },
     ],
   },
 ];

@@ -35,6 +35,7 @@ export default {
       localTabs: [
         { label: "权限树", id: "permission" },
         { label: "角色管理", id: "role" },
+        { label: "用户管理", id: "user" },
       ],
     });
     const router = useRouter();
