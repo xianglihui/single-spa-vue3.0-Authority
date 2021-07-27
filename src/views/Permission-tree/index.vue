@@ -44,6 +44,105 @@
           ref="tree"
         ></el-tree>
       </div>
+      <!-- btn -->
+      <div class="middle">
+        <el-button
+          size="mini"
+          @click="handleAddRole"
+          type="primary"
+          icon="el-icon-user"
+          >授权给角色</el-button
+        >
+        <el-button
+          size="mini"
+          @click="handleCreate"
+          type="primary"
+          icon="el-icon-plus"
+          >新增权限</el-button
+        >
+        <el-button
+          size="mini"
+          @click="handleDelete"
+          type="danger"
+          icon="el-icon-delete"
+          >删除权限</el-button
+        >
+        <br />
+        <!-- tip -->
+        <span
+          :class="
+            operationType === 'edit'
+              ? 'edit hint'
+              : operationType === 'create'
+              ? 'create hint'
+              : ''
+          "
+        >
+          {{
+            operationType === "edit"
+              ? "修改【" + currentNode.name + "】权限"
+              : ""
+          }}
+          {{
+            operationType === "create"
+              ? "【" + currentNode.name + "】权限下新增"
+              : ""
+          }}
+        </span>
+        <!-- form -->
+        <el-form
+          ref="form"
+          label-width="80px"
+          size="mini"
+          class="form"
+        >
+          <!-- {{ form }} -->
+          <el-form-item label="名称">
+            <el-input v-model="form.name"></el-input>
+          </el-form-item>
+          <el-form-item label="code" prop="code">
+            <el-input v-model="form.code"></el-input>
+          </el-form-item>
+          <el-form-item label="icon" prop="icon">
+            <el-input v-model="form.icon"></el-input>
+          </el-form-item>
+          <el-form-item label="url" prop="url">
+            <el-input v-model="form.url"></el-input>
+          </el-form-item>
+          <el-form-item label="类型" prop="featureType">
+            <el-select v-model="form.featureType" placeholder="请选择">
+              <el-option
+                v-for="item in typeList"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="排序" prop="orderIndex">
+            <el-input v-model="form.orderIndex"></el-input>
+          </el-form-item>
+          <el-form-item label="是否折叠" prop="isCollapse">
+            <el-switch
+              v-model="form.isCollapse"
+              active-color="#409EFF"
+              inactive-color="#909399"
+              active-text="是"
+              inactive-text="否"
+            >
+            </el-switch>
+          </el-form-item>
+          <el-form-item>
+            <el-button
+              type="primary"
+              @click="submitForm('form')"
+              v-if="operationType"
+              >保存{{ operationType === "edit" ? "编辑" : "新增" }}</el-button
+            >
+          </el-form-item>
+        </el-form>
+      </div>
     </div>
   </div>
 </template>
@@ -52,6 +151,7 @@
 import { reactive, toRefs, ref, onMounted } from "vue";
 import commonPageHeader from "@/components/common/CommonPageHeader.vue";
 import { useCurrentInstance } from "@/utils/toolset";
+import { ElMessageBox, ElMessage } from "element-plus";
 export default {
   components: {
     commonPageHeader,
@@ -72,41 +172,6 @@ export default {
         isShowYS: false,
         id: "",
       },
-      test:[{
-          label: '一级 1',
-          children: [{
-            label: '二级 1-1',
-            children: [{
-              label: '三级 1-1-1'
-            }]
-          }]
-        }, {
-          label: '一级 2',
-          children: [{
-            label: '二级 2-1',
-            children: [{
-              label: '三级 2-1-1'
-            }]
-          }, {
-            label: '二级 2-2',
-            children: [{
-              label: '三级 2-2-1'
-            }]
-          }]
-        }, {
-          label: '一级 3',
-          children: [{
-            label: '二级 3-1',
-            children: [{
-              label: '三级 3-1-1'
-            }]
-          }, {
-            label: '二级 3-2',
-            children: [{
-              label: '三级 3-2-1'
-            }]
-          }]
-        }],
       defaultProps: {
         children: "children",
         label: "name",
@@ -116,6 +181,14 @@ export default {
       operationType: "", // 操作类型 create edit
       deleteAble: false, // 是否可删除
       createAble: false, // 是否可删除
+      typeList: [
+        { label: "隐藏", value: 0 },
+        { label: "应用", value: 1 },
+        { label: "模块", value: 2 },
+        { label: "菜单", value: 3 },
+        { label: "设置", value: 4 },
+      ],
+      test:'test'
     });
     const { proxy } = useCurrentInstance(); // 拿全局api
     const filterText = ref(""); // 过滤关键词
@@ -129,12 +202,11 @@ export default {
       console.log("全部展开");
     };
     const resetForm = (formName: any) => {
-        // $refs[formName].resetFields();
-        console.log('formName')
+      // $refs[formName].resetFields();
+      console.log("formName");
     };
     // 获取权限树
     const getAuthTree = () => {
-      // console.log("------", proxy.$authApi.getAuthTree() instanceof Promise);
       proxy.$authApi
         .getAuthTree()
         .then((res: any) => {
@@ -147,12 +219,14 @@ export default {
           resetForm("form");
         });
     };
+    // 筛选
     const filterNode = (value: any, data: any) => {
       if (!value) {
         return true;
       }
       return data.name.indexOf(value) !== -1;
     };
+    // 节点被点击时的回调
     const handleNodeClick = (data: any, node: any) => {
       state.level4 = [];
       if (node.level === 3) {
@@ -162,9 +236,46 @@ export default {
       }
       state.currentNode = data;
       state.operationType = "edit";
+      // 回显
       state.form = { ...data };
+      state.form.name = '1';
+      console.log("state.form", state.form);
       state.deleteAble = true;
       state.createAble = true;
+    };
+
+    // 授权角色
+    const handleAddRole = () => {
+      console.log("添加角色");
+    };
+    // 新增
+    const handleCreate = () => {
+      console.log('新增')
+      // state.currentNode = JSON.parse(JSON.stringify(state.form));
+      // const code = `${state.form.code}.`;
+      // state.operationType = "create";
+      // resetForm("form");
+      // state.form.code = code;
+      // state.deleteAble = false;
+    };
+    // 删除
+    const handleDelete = () => {
+      ElMessageBox.confirm("确认删除该权限, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      }).then(() => {
+        deletePermission();
+      });
+      // .catch(() => {});
+    };
+    // 删除
+    const deletePermission = () => {
+      console.log("删除");
+    };
+    // 提交表单
+    const submitForm = () => {
+      console.log("提交表单");
     };
     onMounted(() => {
       getAuthTree();
@@ -175,7 +286,11 @@ export default {
       collapseAll,
       unFoldAll,
       filterNode,
-      handleNodeClick
+      handleNodeClick,
+      handleAddRole,
+      handleCreate,
+      handleDelete,
+      submitForm,
     };
   },
 };
