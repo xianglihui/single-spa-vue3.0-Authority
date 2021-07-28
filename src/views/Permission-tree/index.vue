@@ -166,11 +166,10 @@ export default {
         code: "",
         icon: "",
         url: "",
-        featureType: 0,
-        orderIndex: 0,
+        featureType: 0,// 类型
+        orderIndex: 0,// 排序
         namePinyin: "",
         isCollapse: false,
-        isShowYS: false,
         id: "",
       },
       defaultProps: {
@@ -183,11 +182,11 @@ export default {
       deleteAble: false, // 是否可删除
       createAble: false, // 是否可删除
       typeList: [
-        { label: "隐藏", value: 0 },
-        { label: "应用", value: 1 },
+        { label: "隐藏", value: 0 },// 隐藏菜单
+        { label: "应用", value: 1 },// 子模块A，B...
         { label: "模块", value: 2 },
-        { label: "菜单", value: 3 },
-        { label: "设置", value: 4 },
+        { label: "菜单", value: 3 },// 侧边栏菜单
+        { label: "设置", value: 4 },// 全局设置
       ],
       test:'test'
     });

@@ -27,8 +27,8 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: "role",
-        name: "role",
+        path: "user",
+        name: "user",
         component: View.UserManage,
         meta: {
           title: "权限系统 - 用户管理",
