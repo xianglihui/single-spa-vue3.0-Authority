@@ -1,7 +1,7 @@
 import qs from "qs";
 import * as model from './paramsInterface'
 import serves from "@/api/axios";
-// import { getParams } from "@/utils/toolset";
+import { getParams } from "@/utils/toolset";
 import { env } from "@/utils";
 
 const baseApi = serves(env.mockServe());
@@ -15,3 +15,11 @@ export const deletePermission = (body: model.AuthTree.IdeletePermission) => base
 export const editPermission = (body: model.AuthTree.IeditPermission) => baseApi.patch('/getFeatureTree', body)
 // 新增权限树权限
 export const addPermission = (body: model.AuthTree.IaddPermission) => baseApi.post('/getFeatureTree', body)
+
+/**
+ * 用户管理
+ */
+// 获取角色列表
+export const getRoles = (body: model.Role.IgetRoles) => baseApi.get('/GetAuthRoles' + getParams(body))
+// 删除角色
+export const deleteRoles = (id: number) => baseApi.delete(`/GetAuthRoles/${id}`)

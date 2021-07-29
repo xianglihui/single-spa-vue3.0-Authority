@@ -45,7 +45,7 @@ export default defineComponent({
   },
 });
 </script>
-<style scoped>
+<style>
 .commonPageHeader {
   margin: 0 10px;
   font-size: 18px;

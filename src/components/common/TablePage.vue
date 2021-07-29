@@ -164,7 +164,7 @@ export default defineComponent({
     "handleSelectionChange",
   ],
   setup(props, context) {
-    const vtable = ref(null);
+    const vtable = ref();
     const handleCurrentChange = (val: number) => {
       context.emit("page", val);
     };

@@ -6,11 +6,12 @@ const options: AxiosRequestConfig = {
   withCredentials: true,
   headers: { "content-type": "application/x-www-form-urlencoded" },
   // data: qs.stringify(body),
-  url: "https://portal-test.lonsid.cn/api/domainidentity/connect/token",
+  url: "http://3001/token",
 };
 
 const getToken = () =>
   axios(options).then((res) => {
+    console.log("token", res);
     if (res.status === 200) {
       localStorage.setItem("token", res.data.access_token);
     }

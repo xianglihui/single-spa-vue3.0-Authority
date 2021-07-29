@@ -6,6 +6,28 @@
           新增角色
         </el-button>
       </div>
+      <template v-slot:search>
+        <div class="content-header">
+          <el-form
+            :model="form"
+            :inline="true"
+            class="searchFrom"
+            ref="searchForm"
+          >
+            <div class="search-input-box">
+              <el-form-item label prop="name" class="item-keyword">
+                <el-input
+                  v-model="form.name"
+                  @keyup.enter="getRoles({ PageIndex: 1 })"
+                  placeholder="请输角色名称"
+                  clearable
+                  size="mini"
+                ></el-input>
+              </el-form-item>
+            </div>
+          </el-form>
+        </div>
+      </template>
     </common-page-header>
     <div class="pageContent">
       <vtable
@@ -16,6 +38,20 @@
         :column="column"
         :headerStyle="{ background: '#fff' }"
       >
+        <template #operate="scope">
+          <el-button @click="deleteRole(scope.row)" type="danger" size="mini">
+            删除
+          </el-button>
+          <el-button @click="addRole(scope.row)" type="primary" size="mini">
+            设置权限
+          </el-button>
+          <el-button @click="updateRole(scope)" type="primary" size="mini">
+            编辑
+          </el-button>
+          <el-button @click="watchRole(scope.row)" type="primary" size="mini">
+            查看用户
+          </el-button>
+        </template>
       </vtable>
     </div>
   </div>
@@ -24,7 +60,12 @@
 <script lang="ts">
 import commonPageHeader from "@/components/common/CommonPageHeader.vue";
 import vtable from "@/components/common/TablePage.vue";
-import { defineComponent, ref, reactive, toRefs } from "vue";
+import { useCurrentInstance } from "@/utils/toolset";
+import { ElMessage } from "element-plus";
+import { defineComponent, ref, reactive, toRefs, onMounted } from "vue";
+interface Obj {
+  [key: string]: string | number;
+}
 export default defineComponent({
   components: {
     commonPageHeader,
@@ -32,6 +73,7 @@ export default defineComponent({
   },
   setup() {
     const title = ref("用户管理");
+    const { proxy } = useCurrentInstance(); // 拿全局api
     const state = reactive({
       page: {
         PageIndex: 1,
@@ -56,6 +98,11 @@ export default defineComponent({
           width: "360",
         },
       ],
+      form: {
+        name: "",
+        skipCount: 0,
+        maxResultCount: 20,
+      },
     });
     const handleCreate = () => {
       console.log("新增");
@@ -65,26 +112,40 @@ export default defineComponent({
       state.page.PageIndex = val;
       //   this.getRoles();
     };
+    // 获取角色列表
+    const getRoles = () => {
+      proxy.$authApi.getRoles().then((res: any) => {
+        console.log("获取角色列表", res);
+        state.tableData = res.data;
+        state.page.PageTotal = res.data.length;
+      });
+    };
+    // 删除角色
+    const deleteRole = (row: Obj) => {
+      const id = row.id;
+      console.log("id", id);
+      proxy.$authApi.deleteRoles(id).then((res: any) => {
+        console.log("删除角色", res);
+        ElMessage.success({
+          message: "删除成功！",
+          type: "success",
+        });
+        getRoles();
+        // state.tableData = res.data;
+      });
+    };
+    onMounted(() => {
+      getRoles();
+    });
     return {
       ...toRefs(state),
       title,
       handleCreate,
+      deleteRole,
       handleCurrentChange,
     };
   },
 });
 </script>
 
-<style>
-.headerBtnWrap:before {
-  content: "";
-  display: block;
-  width: 1px;
-  height: 24px;
-  background-color: rgba(200, 200, 200, 1);
-  background-color: rgba(var(--palette-neutral-20, 200, 200, 200), 1);
-  position: absolute;
-  left: -10px;
-  top: 20px;
-}
-</style>
+<style></style>

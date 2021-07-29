@@ -1,11 +1,20 @@
 import { h, createApp } from "vue";
 import singleSpaVue from "single-spa-vue";
-import ElementPlus from 'element-plus';
-import 'element-plus/lib/theme-chalk/index.css';
+import ElementPlus from "element-plus";
+import "element-plus/lib/theme-chalk/index.css";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+// import locale from "./utils/zh-cn.js";
+// import locale from "element-plus/lib/locale/lang/zh-cn";
+import * as locale from "element-plus/lib/locale/index.js";
+import lang from "element-plus/lib/locale/lang/zh-cn";
 import "@/assets/css/common.css"; // +
 import App from "./App.vue";
 import router from "./router";
 import api from "@/api";
+// import { ElMessage } from "element-plus";
+// const message = ElMessage();
+locale.use(lang);
 const vueLifecycles = singleSpaVue({
   createApp,
   appOptions: {
@@ -24,7 +33,9 @@ const vueLifecycles = singleSpaVue({
   },
   handleInstance(app) {
     app.config.globalProperties.$authApi = api;
-    app.use(router).use(ElementPlus);
+    // app.config.globalProperties.$message = message;
+    app.use(router);
+    app.use(ElementPlus, { locale });
   },
 });
 
