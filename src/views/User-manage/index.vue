@@ -3,7 +3,7 @@
     <common-page-header :title="title" :showSearchHandle="true">
       <div class="headerBtnWrap">
         <el-button class="el-icon-plus" type="text" plain @click="handleCreate">
-          新增角色
+          创建角色
         </el-button>
       </div>
       <template v-slot:search>
@@ -48,18 +48,26 @@
           <el-button @click="updateRole(scope)" type="primary" size="mini">
             编辑
           </el-button>
-          <el-button @click="watchRole(scope.row)" type="primary" size="mini">
+          <el-button @click="readRole(scope.row)" type="primary" size="mini">
             查看用户
           </el-button>
         </template>
       </vtable>
     </div>
+    <!-- v-model配合update:isEditDialog使用 -->
+    <editRolePermisson
+      v-if="isEditDialog"
+      v-model:isEditDialog="isEditDialog"
+      :row="clickRow"
+    ></editRolePermisson>
   </div>
+  <!-- dialog -->
 </template>
 
 <script lang="ts">
 import commonPageHeader from "@/components/common/CommonPageHeader.vue";
 import vtable from "@/components/common/TablePage.vue";
+import editRolePermisson from "@/components/User-manage/addRole-dialog.vue";
 import { useCurrentInstance } from "@/utils/toolset";
 import { ElMessage } from "element-plus";
 import { defineComponent, ref, reactive, toRefs, onMounted } from "vue";
@@ -70,6 +78,7 @@ export default defineComponent({
   components: {
     commonPageHeader,
     vtable,
+    editRolePermisson,
   },
   setup() {
     const title = ref("用户管理");
@@ -103,6 +112,8 @@ export default defineComponent({
         skipCount: 0,
         maxResultCount: 20,
       },
+      clickRow: {},
+      isEditDialog: false,
     });
     const handleCreate = () => {
       console.log("新增");
@@ -134,6 +145,13 @@ export default defineComponent({
         // state.tableData = res.data;
       });
     };
+    // 编辑权限
+    const addRole = (scope: Obj) => {
+      console.log("编辑权限", scope);
+      state.clickRow = scope;
+      console.log("state.clickRow", state.clickRow);
+      state.isEditDialog = true;
+    };
     onMounted(() => {
       getRoles();
     });
@@ -142,6 +160,7 @@ export default defineComponent({
       title,
       handleCreate,
       deleteRole,
+      addRole,
       handleCurrentChange,
     };
   },
