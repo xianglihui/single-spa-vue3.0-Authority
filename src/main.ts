@@ -6,6 +6,7 @@ import "element-plus/lib/theme-chalk/index.css";
 // @ts-ignore
 // import locale from "./utils/zh-cn.js";
 // import locale from "element-plus/lib/locale/lang/zh-cn";
+// import zhCn from 'element-plus/lib/locale/lang/zh-cn'
 import * as locale from "element-plus/lib/locale/index.js";
 import lang from "element-plus/lib/locale/lang/zh-cn";
 import "@/assets/css/common.css"; // +

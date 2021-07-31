@@ -25,3 +25,5 @@ export const getRoles = (body: model.Role.IgetRoles) => baseApi.get('/GetAuthRol
 export const deleteRoles = (id: number) => baseApi.delete(`/GetAuthRoles/${id}`)
 // 获取个人权限
 export const GetRolesById = (id:number) => baseApi.get(`/GetRolePermissionTreeById/${id}`)
+// 获取全部权限树
+export const features = () => baseApi.get(`/features`)
