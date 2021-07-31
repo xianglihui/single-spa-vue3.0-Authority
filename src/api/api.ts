@@ -31,3 +31,7 @@ export const features = () => baseApi.get(`/features`)
 export const GetRolesTreeById = (id:number) => baseApi.get(`/grantedPermissionChildren/${id}`)
 // 提交编辑用户权限 json-server局限性 必须要带上id才能请求
 export const addRolePermission = (body: any) =>baseApi.patch(`GetRolePermissionTreeById/${body.id}`, body)
+// 编辑用户 json-server局限性 必须要带上id才能请求
+export const editRole = (body: any) => baseApi.patch(`/GetAuthRoles/${body.id}`,body)
+// 创建角色
+export const createRole = (body: model.Role.IgetRoles) => baseApi.post('/GetAuthRoles/', body)

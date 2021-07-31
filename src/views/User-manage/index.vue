@@ -48,26 +48,38 @@
           <el-button @click="updateRole(scope)" type="primary" size="mini">
             编辑
           </el-button>
-          <el-button @click="readRole(scope.row)" type="primary" size="mini">
+          <el-button @click="readUsers(scope.row)" type="primary" size="mini">
             查看用户
           </el-button>
         </template>
       </vtable>
     </div>
     <!-- v-model配合update:isEditDialog使用 -->
+    <!-- 编辑角色权限 -->
     <editRolePermisson
       v-if="isEditDialog"
       v-model:isEditDialog="isEditDialog"
       :row="clickRow"
-    ></editRolePermisson>
+    />
+    <!-- 编辑/新增角色 -->
+    <updateRoleInfo
+      v-if="isUpdateDialog"
+      v-model:isUpdateDialog="isUpdateDialog"
+      :dialogType="operationType"
+      :row="clickRow"
+      @update:flush="getRoles"
+    />
+    <!-- 查看用户 -->
+    <readUsers v-if="isReadUsers" v-model:isReadUsers="isReadUsers"></readUsers>
   </div>
-  <!-- dialog -->
 </template>
 
 <script lang="ts">
 import commonPageHeader from "@/components/common/CommonPageHeader.vue";
 import vtable from "@/components/common/TablePage.vue";
 import editRolePermisson from "@/components/User-manage/addRole-dialog.vue";
+import updateRoleInfo from "@/components/User-manage/updateRole-dialog.vue";
+import readUsers from "@/components/User-manage/readUser-dialog.vue";
 import { useCurrentInstance } from "@/utils/toolset";
 import { ElMessage } from "element-plus";
 import { defineComponent, ref, reactive, toRefs, onMounted } from "vue";
@@ -79,6 +91,8 @@ export default defineComponent({
     commonPageHeader,
     vtable,
     editRolePermisson,
+    updateRoleInfo,
+    readUsers,
   },
   setup() {
     const title = ref("用户管理");
@@ -113,11 +127,12 @@ export default defineComponent({
         maxResultCount: 20,
       },
       clickRow: {},
-      isEditDialog: false,
+      isEditDialog: false, // 编辑权限dialog开关
+      isUpdateDialog: false, //角色信息dialog开关
+      isReadUsers: false, //查看用户dialog开关
+      operationType: "", // /角色操作类型 create edit
     });
-    const handleCreate = () => {
-      console.log("新增");
-    };
+
     /** 页数 */
     const handleCurrentChange = (val: number) => {
       state.page.PageIndex = val;
@@ -157,6 +172,25 @@ export default defineComponent({
       state.clickRow = scope;
       state.isEditDialog = true;
     };
+    /**
+     * 编辑角色（更新用户信息）
+     */
+    const updateRole = (scope: Obj) => {
+      state.clickRow = scope;
+      state.operationType = "edit";
+      state.isUpdateDialog = true;
+    };
+    /**
+     * 新增角色
+     */
+    const handleCreate = () => {
+      state.operationType = "create";
+      state.isUpdateDialog = true;
+    };
+    // 查看角色用户
+    const readUsers = () => {
+      state.isReadUsers = true;
+    };
     onMounted(() => {
       getRoles();
     });
@@ -166,7 +200,10 @@ export default defineComponent({
       handleCreate,
       deleteRole,
       addRole,
+      updateRole,
       handleCurrentChange,
+      getRoles,
+      readUsers,
     };
   },
 });
