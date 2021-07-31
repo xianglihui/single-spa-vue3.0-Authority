@@ -145,11 +145,16 @@ export default defineComponent({
         // state.tableData = res.data;
       });
     };
-    // 编辑权限
+    /**
+     * 新增权限
+     * 由于mock的局限性 接口写的比较乱 基本逻辑如下：
+     * 管理员进入页面，编辑某个角色，能拿到数据1、完整的权限树，2、角色拥有的权限树（用于tree回显数据），3、用户拥有的权限，以上为get操作
+     * 通过点击权限树能拿到当前树数据，保存后更新index页面，属于patch操作
+     * 业务逻辑如下：
+     * 角色可以设置多个权限，用于用户管理的配置，属于一对多的关系，属于一个角色可以分配给N个用户
+     */
     const addRole = (scope: Obj) => {
-      console.log("编辑权限", scope);
       state.clickRow = scope;
-      console.log("state.clickRow", state.clickRow);
       state.isEditDialog = true;
     };
     onMounted(() => {

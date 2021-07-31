@@ -23,7 +23,11 @@ export const addPermission = (body: model.AuthTree.IaddPermission) => baseApi.po
 export const getRoles = (body: model.Role.IgetRoles) => baseApi.get('/GetAuthRoles' + getParams(body))
 // 删除角色
 export const deleteRoles = (id: number) => baseApi.delete(`/GetAuthRoles/${id}`)
-// 获取个人权限
+// 获取个人权限 id：1是admin
 export const GetRolesById = (id:number) => baseApi.get(`/GetRolePermissionTreeById/${id}`)
 // 获取全部权限树
 export const features = () => baseApi.get(`/features`)
+// 获取用户权限树
+export const GetRolesTreeById = (id:number) => baseApi.get(`/grantedPermissionChildren/${id}`)
+// 提交编辑用户权限 json-server局限性 必须要带上id才能请求
+export const addRolePermission = (body: any) =>baseApi.patch(`GetRolePermissionTreeById/${body.id}`, body)
