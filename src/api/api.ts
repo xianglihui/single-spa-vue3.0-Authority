@@ -35,3 +35,5 @@ export const addRolePermission = (body: any) =>baseApi.patch(`GetRolePermissionT
 export const editRole = (body: any) => baseApi.patch(`/GetAuthRoles/${body.id}`,body)
 // 创建角色
 export const createRole = (body: model.Role.IgetRoles) => baseApi.post('/GetAuthRoles/', body)
+// 查看用户 getUserRoles
+export const getUserRolesById = (id:number) => baseApi.get(`/getUserRoles/${id}`)

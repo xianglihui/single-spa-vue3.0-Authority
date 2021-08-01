@@ -70,7 +70,11 @@
       @update:flush="getRoles"
     />
     <!-- 查看用户 -->
-    <readUsers v-if="isReadUsers" v-model:isReadUsers="isReadUsers"></readUsers>
+    <readUsers
+      v-if="isReadUsers"
+      v-model:isReadUsers="isReadUsers"
+      :row="clickRow"
+    ></readUsers>
   </div>
 </template>
 
@@ -188,7 +192,8 @@ export default defineComponent({
       state.isUpdateDialog = true;
     };
     // 查看角色用户
-    const readUsers = () => {
+    const readUsers = (scope: Obj) => {
+      state.clickRow = scope;
       state.isReadUsers = true;
     };
     onMounted(() => {
