@@ -205,7 +205,14 @@ export default {
       // $refs[formName].resetFields();
       console.log("formName");
     };
-    // 获取权限树
+    /**
+     * 获取权限树
+     * 例如CentralSystem 作为一级系统（允许出现多个一级系统），应需如下基本字段
+     * 系统级别：id:标识唯一性，url：作为路由跳转路径，name:系统名称，featureType:模块类型，icon：图标，code：权限code，parentCode：父级code,children:子集
+     * 应用级别：作为系统级别的children，上同
+     * 页面级别：作为应用级别的children，上同
+     * 按钮级别，作为页面级别的children，出icon外,上同
+     */
     const getAuthTree = () => {
       proxy.$authApi
         .getAuthTree()

@@ -42,7 +42,11 @@ export const getRolesUserById = (id:number) => baseApi.get(`/getUserRoles/${id}`
  * 用户管理
  */
 // 获取用户
- export const getUsers = (body: model.User.IgetUsers) => baseApi.get('getusers' + getParams(body))
+ export const getUsers = (body: model.User.IgetUsers) => baseApi.get('/getusers' + getParams(body))
+ // 编辑用户
+ export const editUser = (body: any) => baseApi.patch(`/getusers/${body.id}`,body)
+//  创建用户
+export const crateUser = (body: any) => baseApi.post(`/getusers/`,body)
 // 禁用用户
 export const setUserActiveById = (body:any) => baseApi.patch(`getusers/${body.id}`,body)
 // 删除用户

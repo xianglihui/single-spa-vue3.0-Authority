@@ -2,7 +2,9 @@
   <div>
     <common-page-header :title="title" :showSearchHandle="true">
       <div class="headerBtnWrap">
-        <el-button class="el-icon-plus" type="text" plain> 创建用户 </el-button>
+        <el-button class="el-icon-plus" type="text" plain @click="handleCreate">
+          创建用户
+        </el-button>
       </div>
     </common-page-header>
     <div class="pageContent">
@@ -109,7 +111,7 @@ export default defineComponent({
         },
         {
           label: "所属角色",
-          prop: "roleName",
+          prop: "roleName", // 显示用户身份下的角色，mock环境比较局限，也没必要做轮询
           align: "left",
         },
         {
@@ -134,7 +136,13 @@ export default defineComponent({
       state.page.PageIndex = val;
       //   this.getRoles();
     };
-    // 获取用户列表
+    const handleCreate = () => {
+      state.operationType = "create";
+      state.isUpdateDialog = true;
+    };
+    /**获取用户列表
+     * 真实环境密码是不会返回出来，这里为登录方便,mock了密码
+     */
     const getUsers = () => {
       proxy.$authApi.getUsers().then((res: any) => {
         console.log("获取用户列表", res);
@@ -209,6 +217,7 @@ export default defineComponent({
       changePassword,
       updateUser,
       addRoles,
+      handleCreate,
     };
   },
 });

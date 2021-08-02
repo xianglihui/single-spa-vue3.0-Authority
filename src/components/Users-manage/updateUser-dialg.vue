@@ -6,7 +6,7 @@
     @close="closeDialog"
   >
     <el-form ref="refForm" :model="form" label-width="80px" size="mini">
-      <el-form-item label="姓名">
+      <el-form-item label="用户名">
         <el-input v-model="form.userName"></el-input>
       </el-form-item>
       <el-form-item label="手机号">
@@ -28,7 +28,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, toRefs, onMounted, watch } from "vue";
+import {
+  defineComponent,
+  ref,
+  reactive,
+  toRefs,
+  onMounted,
+  onUnmounted,
+} from "vue";
 import { useCurrentInstance } from "@/utils/toolset";
 import { ElMessage } from "element-plus";
 interface Obj {
@@ -45,48 +52,52 @@ export default defineComponent({
     const state = reactive({
       isUpdateDialog: isUpdateDialog.value,
       dialogType: dialogType.value,
-      form: row.value || {}, // 创建时form为空对象
+      form: {},
       dialogTypeNmae: "",
     });
+    // 刷新与关闭
+    const emitFlush = () => {
+      parent.emit("update:isUpdateDialog", false);
+      parent.emit("update:flush");
+    };
     const closeDialog = () => {
       // EventBus
-      parent.emit("update:isUpdateDialog", false);
-    };
-    const editRole = () => {
-      console.log("编辑角色");
-    };
-    const createRole = () => {
-      console.log("编辑角色");
+      emitFlush();
     };
     // submit
     const saveDialog = () => {
       // 编辑
       if (state.dialogType === "edit") {
-        proxy.$authApi.editRole(state.form).then((res: any) => {
+        proxy.$authApi.editUser(state.form).then((res: any) => {
           ElMessage.success({
             message: "更新成功！",
             type: "success",
           });
+          emitFlush();
         });
-        parent.emit("update:isUpdateDialog", false);
       }
       // 创建
       if (state.dialogType === "create") {
-        proxy.$authApi.createRole(state.form).then((res: any) => {
+        proxy.$authApi.crateUser(state.form).then((res: any) => {
           ElMessage.success({
             message: "创建成功！",
             type: "success",
           });
           console.log("parent", parent);
-          parent.emit("update:flush");
         });
-        parent.emit("update:isUpdateDialog", false);
+        emitFlush();
       }
     };
     onMounted(() => {
       state.dialogType === "edit"
         ? (state.dialogTypeNmae = "编辑")
         : (state.dialogTypeNmae = "创建");
+      if (state.dialogType === "edit") {
+        state.form = row.value;
+      }
+    });
+    onUnmounted(() => {
+      console.log("onUnmounted");
     });
     return {
       ...toRefs(state),
