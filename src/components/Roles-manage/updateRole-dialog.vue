@@ -42,7 +42,7 @@ export default defineComponent({
     const state = reactive({
       isUpdateDialog: isUpdateDialog.value,
       dialogType: dialogType.value,
-      form: row.value.row || {}, // 创建时form为空对象
+      form: row.value || {}, // 创建时form为空对象
       dialogTypeNmae: "",
     });
     const closeDialog = () => {

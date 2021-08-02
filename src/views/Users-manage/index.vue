@@ -44,19 +44,46 @@
         </template>
       </vtable>
     </div>
+    <!-- dialog -->
+    <!-- 修改用户密码 -->
+    <userChangePassword
+      v-if="isChangePassword"
+      v-model:isChangePassword="isChangePassword"
+      :row="clickRow"
+    ></userChangePassword>
+    <!-- 编辑/新增用户 -->
+    <updateUserInfo
+      v-if="isUpdateDialog"
+      v-model:isUpdateDialog="isUpdateDialog"
+      :dialogType="operationType"
+      :row="clickRow"
+      @update:flush="getUsers"
+    ></updateUserInfo>
+    <!-- 设置角色 -->
+    <setRoles v-if="isAddRoles" v-model:isAddRoles="isAddRoles" :row="clickRow">
+    </setRoles>
   </div>
 </template>
 
 <script lang="ts">
+interface Obj {
+  [key: string]: string | number;
+}
 import commonPageHeader from "@/components/common/CommonPageHeader.vue";
 import vtable from "@/components/common/TablePage.vue";
 import { useCurrentInstance } from "@/utils/toolset";
 import { defineComponent, reactive, toRefs, ref, onMounted } from "vue";
 import { ElMessage } from "element-plus";
+import userChangePassword from "@/components/Users-manage/changePassword-dialog.vue";
+import updateUserInfo from "@/components/Users-manage/updateUser-dialg.vue";
+import setRoles from "@/components/Users-manage/setRoles-dialog.vue";
 export default defineComponent({
   components: {
     commonPageHeader,
     vtable,
+    userChangePassword,
+    updateUserInfo,
+    setRoles,
   },
   setup() {
     const title = ref("用户管理");
@@ -68,6 +95,7 @@ export default defineComponent({
         PageTotal: 0,
       },
       tableData: [],
+      clickRow: {},
       column: [
         {
           label: "用户名",
@@ -94,6 +122,10 @@ export default defineComponent({
           width: "400",
         },
       ],
+      isChangePassword: false, // 修改密码 dialog
+      isUpdateDialog: false, // 用户信息dialog开关
+      isAddRoles: false,
+      operationType: "", // 角色操作类型 create edit
     });
     /** 页数
      * mock 暂未做分页
@@ -119,7 +151,7 @@ export default defineComponent({
           message: "删除成功",
           type: "success",
         });
-         getUsers();
+        getUsers();
       });
     };
     // 禁用/启用
@@ -139,16 +171,30 @@ export default defineComponent({
       });
     };
     // 修改密码
-    const changePassword = () => {
-      console.log("修改密码");
+    const changePassword = (scope: Obj) => {
+      state.clickRow = scope;
+      state.isChangePassword = true;
     };
-    // 修改用户信息
-    const updateUser = () => {
+    // 修改(编辑）用户信息
+    const updateUser = (scope: Obj) => {
       console.log("修改用户信息");
+      state.clickRow = scope;
+      state.operationType = "edit";
+      state.isUpdateDialog = true;
     };
-    // 设置角色
-    const addRoles = () => {
+    /**
+     * 设置角色，业务逻辑如下
+     * 1、用户与角色是一对多的关系，一个用户可以设置多个角色
+     * 2、角色通过角色管理创建/获取
+     * 3、最终通过给权限树下某个页面/功能赋予角色
+     * 代码逻辑如下
+     * 1、用户的角色以tag显示，可删/增
+     * 2、添加角色可筛选列表显示
+     */
+    const addRoles = (scope: Obj) => {
       console.log("设置角色");
+      state.clickRow = scope;
+      state.isAddRoles = true;
     };
     onMounted(() => {
       getUsers();

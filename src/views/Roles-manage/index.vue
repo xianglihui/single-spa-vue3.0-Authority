@@ -45,7 +45,7 @@
           <el-button @click="addRole(scope.row)" type="primary" size="mini">
             设置权限
           </el-button>
-          <el-button @click="updateRole(scope)" type="primary" size="mini">
+          <el-button @click="updateRole(scope.row)" type="primary" size="mini">
             编辑
           </el-button>
           <el-button @click="readUsers(scope.row)" type="primary" size="mini">
@@ -81,9 +81,9 @@
 <script lang="ts">
 import commonPageHeader from "@/components/common/CommonPageHeader.vue";
 import vtable from "@/components/common/TablePage.vue";
-import editRolePermisson from "@/components/User-manage/addRole-dialog.vue";
-import updateRoleInfo from "@/components/User-manage/updateRole-dialog.vue";
-import readUsers from "@/components/User-manage/readUser-dialog.vue";
+import editRolePermisson from "@/components/Roles-manage/addRole-dialog.vue";
+import updateRoleInfo from "@/components/Roles-manage/updateRole-dialog.vue";
+import readUsers from "@/components/Roles-manage/readUser-dialog.vue";
 import { useCurrentInstance } from "@/utils/toolset";
 import { ElMessage } from "element-plus";
 import { defineComponent, ref, reactive, toRefs, onMounted } from "vue";

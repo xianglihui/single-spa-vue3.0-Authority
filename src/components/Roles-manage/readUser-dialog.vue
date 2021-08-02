@@ -49,8 +49,8 @@ export default defineComponent({
       row,
     });
     const getRoleUsers = () => {
-      proxy.$authApi.getUserRolesById(state.row.id).then((res: any) => {
-        console.log("查看用户", res);
+      proxy.$authApi.getRolesUserById(state.row.id).then((res: any) => {
+        console.log("查看角色", res);
         state.tableData = res.data.result;
       });
     };
