@@ -29,7 +29,7 @@ function serves(serve: string) {
 
   service.interceptors.response.use(
     (response) => {
-      console.log("response",response)
+      console.log("response", response);
       return response;
     },
     (error) => {

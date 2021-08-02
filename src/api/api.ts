@@ -17,7 +17,7 @@ export const editPermission = (body: model.AuthTree.IeditPermission) => baseApi.
 export const addPermission = (body: model.AuthTree.IaddPermission) => baseApi.post('/getFeatureTree', body)
 
 /**
- * 用户管理
+ * 角色管理
  */
 // 获取角色列表
 export const getRoles = (body: model.Role.IgetRoles) => baseApi.get('/GetAuthRoles' + getParams(body))
@@ -37,3 +37,13 @@ export const editRole = (body: any) => baseApi.patch(`/GetAuthRoles/${body.id}`,
 export const createRole = (body: model.Role.IgetRoles) => baseApi.post('/GetAuthRoles/', body)
 // 查看用户 getUserRoles
 export const getUserRolesById = (id:number) => baseApi.get(`/getUserRoles/${id}`)
+
+/**
+ * 用户管理
+ */
+// 获取用户
+ export const getUsers = (body: model.User.IgetUsers) => baseApi.get('getusers' + getParams(body))
+// 禁用用户
+export const setUserActiveById = (body:any) => baseApi.patch(`getusers/${body.id}`,body)
+// 删除用户
+export const deleteUserById = (id:number) => baseApi.delete(`getusers/${id}`)

@@ -166,8 +166,8 @@ export default {
         code: "",
         icon: "",
         url: "",
-        featureType: 0,// 类型
-        orderIndex: 0,// 排序
+        featureType: 0, // 类型
+        orderIndex: 0, // 排序
         namePinyin: "",
         isCollapse: false,
         id: "",
@@ -182,13 +182,13 @@ export default {
       deleteAble: false, // 是否可删除
       createAble: false, // 是否可删除
       typeList: [
-        { label: "隐藏", value: 0 },// 隐藏菜单
-        { label: "应用", value: 1 },// 子模块A，B...
+        { label: "隐藏", value: 0 }, // 隐藏菜单
+        { label: "应用", value: 1 }, // 子模块A，B...
         { label: "模块", value: 2 },
-        { label: "菜单", value: 3 },// 侧边栏菜单
-        { label: "设置", value: 4 },// 全局设置
+        { label: "菜单", value: 3 }, // 侧边栏菜单
+        { label: "设置", value: 4 }, // 全局设置
       ],
-      test:'test'
+      test: "test",
     });
     const { proxy } = useCurrentInstance(); // 拿全局api
     const filterText = ref(""); // 过滤关键词
@@ -238,7 +238,7 @@ export default {
       state.operationType = "edit";
       // 回显
       state.form = { ...data };
-      state.form.name = '1';
+      state.form.name = "1";
       console.log("state.form", state.form);
       state.deleteAble = true;
       state.createAble = true;
@@ -250,7 +250,7 @@ export default {
     };
     // 新增
     const handleCreate = () => {
-      console.log('新增')
+      console.log("新增");
       // state.currentNode = JSON.parse(JSON.stringify(state.form));
       // const code = `${state.form.code}.`;
       // state.operationType = "create";
