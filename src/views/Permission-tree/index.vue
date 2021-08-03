@@ -218,7 +218,7 @@ export default {
         .getAuthTree()
         .then((res: any) => {
           console.log("res", res);
-          state.treeData = res.data.result;
+          state.treeData = res.data;
         })
         .finally(() => {
           state.operationType = "";

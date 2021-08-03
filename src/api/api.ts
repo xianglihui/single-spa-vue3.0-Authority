@@ -8,7 +8,7 @@ const baseApi = serves(env.mockServe());
 // api接口集合
 
 // 获取权限树
-export const getAuthTree = () => baseApi.get('/getFeatureTree')
+export const getAuthTree = () => baseApi.get('/featuresTest')
 // 删除权限树权限
 export const deletePermission = (body: model.AuthTree.IdeletePermission) => baseApi.delete('/getFeatureTree?' + qs.stringify(body))
 // 编辑权限树权限

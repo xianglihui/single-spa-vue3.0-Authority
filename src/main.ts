@@ -19,6 +19,7 @@ locale.use(lang);
 const vueLifecycles = singleSpaVue({
   createApp,
   appOptions: {
+    el: "#app1", // 本地开发需要注释
     render() {
       return h(App, {
         // single-spa props are available on the "this" object. Forward them to your component as needed.
