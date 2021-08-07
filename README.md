@@ -14,5 +14,8 @@
 4. 域账号管理 
 ## bug
 1. components/Users-manage/updateUser-dialg.vue line.65 关闭子组件时父组件页面数据被修改
+
+## 逻辑
+![业务逻辑](https://raw.githubusercontent.com/xianglihui/single-spa-vue3.0-Authority/master/public/qx.png)
  
 
