@@ -61,7 +61,8 @@ export default defineComponent({
       parent.emit("update:flush");
     };
     const closeDialog = () => {
-      // EventBus
+      // EventBus bug：关闭时父组件也更新数据，这跟内存指向有关系，暂时使用刷新列表或者深拷贝解决此类问题 2021-8-7
+      // parent.emit("update:isUpdateDialog", false);
       emitFlush();
     };
     // submit
