@@ -34,6 +34,14 @@ const routes: Array<RouteRecordRaw> = [
           title: "权限系统 - 用户管理",
         },
       },
+      {
+        path: "domain",
+        name: "domain",
+        component: View.DomainManage,
+        meta: {
+          title: "权限系统 - 域账号管理",
+        },
+      },
     ],
   },
 ];

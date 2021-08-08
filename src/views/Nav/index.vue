@@ -36,6 +36,7 @@ export default {
         { label: "权限树", id: "permission" },
         { label: "角色管理", id: "role" },
         { label: "用户管理", id: "user" },
+        { label: "域账号管理", id: "domain" },
       ],
     });
     const router = useRouter();

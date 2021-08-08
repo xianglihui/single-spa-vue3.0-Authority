@@ -6,4 +6,6 @@ import PermissionTree from "./Permission-tree/index.vue";
 import RoleManage from "./Roles-manage/index.vue";
 // 用户管理
 import UserManage from "./Users-manage/index.vue";
-export { Nav, PermissionTree, RoleManage, UserManage };
+// 域账号管理
+import DomainManage from "./Domain-manage/index.vue";
+export { Nav, PermissionTree, RoleManage, UserManage, DomainManage };
