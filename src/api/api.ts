@@ -53,3 +53,8 @@ export const setUserActiveById = (body:any) => baseApi.patch(`getusers/${body.id
 export const deleteUserById = (id:number) => baseApi.delete(`getusers/${id}`)
 // 查看用户角色
 export const getUserRolesById = (id:number) => baseApi.get(`GetUserRolesById/${id}`)
+/**
+ * 域账号管理
+ */
+// 获取域账号用户列表
+export const getSSOUser = (body: model.User.IgetUsers) => baseApi.get('/getSSOUser' + getParams(body))
